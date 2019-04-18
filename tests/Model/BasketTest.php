@@ -8,10 +8,18 @@ use PHPUnit\Framework\TestCase;
 
 class BasketTest extends TestCase
 {
+    private $basket;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->basket = new Basket();
+    }
+
     public function testConstructor()
     {
-        $basket = new Basket();
-        $this->assertInstanceOf(Basket::class, $basket);
+        $this->assertInstanceOf(Basket::class, $this->basket);
     }
 
     public function testAdd()
@@ -22,14 +30,13 @@ class BasketTest extends TestCase
             ->setCode('R01')
             ->setPrice(32.95)
         ;
-        $basket = new Basket();
 
-        $this->assertEquals(0, $basket->countProducts());
+        $this->assertEquals(0, $this->basket->countProducts());
 
-        $basket->add($product->getCode());
-        $this->assertEquals(1, $basket->countProducts());
+        $this->basket->add($product->getCode());
+        $this->assertEquals(1, $this->basket->countProducts());
 
-        $basket->add($product->getCode());
-        $this->assertEquals(2, $basket->countProducts());
+        $this->basket->add($product->getCode());
+        $this->assertEquals(2, $this->basket->countProducts());
     }
 }
