@@ -37,8 +37,20 @@ class Basket
     public function total()
     {
         $total = $this->getProductsCost();
+        $delivery = $this->getDeliveryCost();
 
-        return $total;
+        return $total + $delivery;
+    }
+
+    private function getDeliveryCost()
+    {
+        $total = $this->getProductsCost();
+
+        foreach ($this->delivery as $amount => $cost) {
+            if ($total >= $amount) {
+                return $cost;
+            }
+        }
     }
 
     private function getProductsCost()

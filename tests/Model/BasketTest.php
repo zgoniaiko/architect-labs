@@ -14,7 +14,7 @@ class BasketTest extends TestCase
 
     private $catalog;
 
-    private $delivery;
+    private $tableDelivery;
     private $flatDelivery;
     private $freeDelivery;
 
@@ -46,7 +46,7 @@ class BasketTest extends TestCase
             $this->blueWidget,
         ];
 
-        $this->delivery = [
+        $this->tableDelivery = [
             90 => 0,
             50 => 2.95,
             0 => 4.95,
@@ -118,4 +118,35 @@ class BasketTest extends TestCase
         $this->assertEquals(0, $basket->total());
     }
 
+    public function testFlatDelivery()
+    {
+        $basket = new Basket($this->catalog, $this->flatDelivery);
+        $this->assertEquals(0, $basket->countProducts());
+        $this->assertEquals(4.95, $basket->total());
+    }
+
+    public function testTableDeliveryUnder50()
+    {
+        $basket = new Basket($this->catalog, $this->tableDelivery);
+        $basket->add('G01');
+        $this->assertEquals(1, $basket->countProducts());
+        $this->assertEquals(24.95 + 4.95, $basket->total());
+
+        $basket->add('B01');
+        $this->assertEquals(2, $basket->countProducts());
+        $this->assertEquals(24.95 + 7.95 + 4.95, $basket->total());
+    }
+
+    public function testTableDeliveryBetween50And90()
+    {
+        $basket = new Basket($this->catalog, $this->tableDelivery);
+        $basket->add('R01');
+        $basket->add('R01');
+        $this->assertEquals(2, $basket->countProducts());
+        $this->assertEquals(32.95 + 32.95 + 2.95, $basket->total());
+
+        $basket->add('B01');
+        $this->assertEquals(3, $basket->countProducts());
+        $this->assertEquals(32.95 + 32.95 + 7.95 + 2.95, $basket->total());
+    }
 }
