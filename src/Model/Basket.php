@@ -8,16 +8,18 @@ class Basket
 {
     private $catalog;
     private $delivery;
+    private $offer;
 
     private $products = [];
 
-    public function __construct(array $catalog, array $delivery = [])
+    public function __construct(array $catalog, array $delivery = [], array $offer = [])
     {
         foreach ($catalog as $item) {
             $this->catalog[$item->getCode()] = $item;
         }
 
         $this->delivery = $delivery;
+        $this->offer = $offer;
     }
 
     public function add($code)

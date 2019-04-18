@@ -18,6 +18,9 @@ class BasketTest extends TestCase
     private $flatDelivery;
     private $freeDelivery;
 
+    private $nextRedHalfPriceOffer;
+    private $noOffer;
+
     protected function setUp()
     {
         parent::setUp();
@@ -57,6 +60,12 @@ class BasketTest extends TestCase
         ];
 
         $this->freeDelivery = [];
+
+        $this->nextRedHalfPriceOffer = [
+            'R01'
+        ];
+
+        $this->noOffer = [];
     }
 
     public function testConstructor()
@@ -162,5 +171,41 @@ class BasketTest extends TestCase
         $basket->add('B01');
         $this->assertEquals(4, $basket->countProducts());
         $this->assertEquals(32.95 + 32.95 + 32.95 + 7.95, $basket->total());
+    }
+
+    public function testFreeDeliveryNoOffer()
+    {
+        $basket = new Basket($this->catalog, $this->freeDelivery);
+        $basket->add('R01');
+        $this->assertEquals(1, $basket->countProducts());
+        $this->assertEquals(32.95, $basket->total());
+
+        $basket = new Basket($this->catalog, $this->freeDelivery, $this->noOffer);
+        $basket->add('R01');
+        $this->assertEquals(1, $basket->countProducts());
+        $this->assertEquals(32.95, $basket->total());
+    }
+
+    public function testFreeDeliveryNextRedHalfPriceOffer()
+    {
+        $basket = new Basket($this->catalog, $this->freeDelivery, $this->nextRedHalfPriceOffer);
+        $basket->add('R01');
+        $this->assertEquals(1, $basket->countProducts());
+        $this->assertEquals(32.95, $basket->total());
+    }
+
+    public function testTableDeliveryNextRedHalfPriceOffer()
+    {
+        $basket = new Basket($this->catalog, $this->tableDelivery, $this->nextRedHalfPriceOffer);
+        $basket->add('B01');
+        $basket->add('G01');
+        $this->assertEquals(2, $basket->countProducts());
+        $this->assertEquals(37.85, $basket->total());
+
+        $basket = new Basket($this->catalog, $this->tableDelivery, $this->nextRedHalfPriceOffer);
+        $basket->add('R01');
+        $basket->add('G01');
+        $this->assertEquals(2, $basket->countProducts());
+        $this->assertEquals(60.85, $basket->total());
     }
 }
