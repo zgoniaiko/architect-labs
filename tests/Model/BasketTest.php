@@ -8,11 +8,14 @@ use PHPUnit\Framework\TestCase;
 
 class BasketTest extends TestCase
 {
-    private $basket;
-
     private $redWidget;
     private $greenWidget;
     private $blueWidget;
+
+    private $catalog;
+
+    private $delivery;
+    private $freeDelivery;
 
     protected function setUp()
     {
@@ -36,55 +39,66 @@ class BasketTest extends TestCase
             ->setPrice(7.95)
         ;
 
-        $products = [
+        $this->catalog = [
             $this->redWidget,
             $this->greenWidget,
             $this->blueWidget,
         ];
 
-        $this->basket = new Basket($products);
+        $this->delivery = [
+            90 => 0,
+            50 => 2.95,
+            0 => 4.95,
+        ];
+
+        $this->freeDelivery = [];
     }
 
     public function testConstructor()
     {
-        $this->assertInstanceOf(Basket::class, $this->basket);
+        $basket = new Basket($this->catalog);
+        $this->assertInstanceOf(Basket::class, $basket);
     }
 
     public function testAdd()
     {
-        $this->assertEquals(0, $this->basket->countProducts());
-        $this->assertEquals(0, $this->basket->total());
+        $basket = new Basket($this->catalog);
+        $this->assertEquals(0, $basket->countProducts());
+        $this->assertEquals(0, $basket->total());
 
-        $this->basket->add('R01');
-        $this->assertEquals(1, $this->basket->countProducts());
-        $this->assertEquals(32.95, $this->basket->total());
+        $basket->add('R01');
+        $this->assertEquals(1, $basket->countProducts());
+        $this->assertEquals(32.95, $basket->total());
     }
 
     public function testAddTwoDifferentProducts()
     {
-        $this->basket->add('G01');
-        $this->assertEquals(1, $this->basket->countProducts());
-        $this->assertEquals(24.95, $this->basket->total());
+        $basket = new Basket($this->catalog);
+        $basket->add('G01');
+        $this->assertEquals(1, $basket->countProducts());
+        $this->assertEquals(24.95, $basket->total());
 
-        $this->basket->add('B01');
-        $this->assertEquals(2, $this->basket->countProducts());
-        $this->assertEquals(24.95 + 7.95, $this->basket->total());
+        $basket->add('B01');
+        $this->assertEquals(2, $basket->countProducts());
+        $this->assertEquals(24.95 + 7.95, $basket->total());
     }
 
     public function testAddSameProductTwice()
     {
-        $this->basket->add('R01');
-        $this->assertEquals(1, $this->basket->countProducts());
-        $this->assertEquals(32.95, $this->basket->total());
+        $basket = new Basket($this->catalog);
+        $basket->add('R01');
+        $this->assertEquals(1, $basket->countProducts());
+        $this->assertEquals(32.95, $basket->total());
 
-        $this->basket->add('R01');
-        $this->assertEquals(2, $this->basket->countProducts());
-        $this->assertEquals(32.95 + 32.95, $this->basket->total());
+        $basket->add('R01');
+        $this->assertEquals(2, $basket->countProducts());
+        $this->assertEquals(32.95 + 32.95, $basket->total());
     }
 
     public function testAddNonExistsProduct()
     {
+        $basket = new Basket($this->catalog);
         $this->expectException('\Exception');
-        $this->basket->add('non-exists');
+        $basket->add('non-exists');
     }
 }
