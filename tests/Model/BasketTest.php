@@ -37,6 +37,12 @@ class BasketTest extends TestCase
 
         $this->basket->add($this->redWidget->getCode());
         $this->assertEquals(1, $this->basket->countProducts());
+    }
+
+    public function testAddSameProductTwice()
+    {
+        $this->basket->add($this->redWidget->getCode());
+        $this->assertEquals(1, $this->basket->countProducts());
 
         $this->basket->add($this->redWidget->getCode());
         $this->assertEquals(2, $this->basket->countProducts());
