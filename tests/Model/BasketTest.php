@@ -55,29 +55,29 @@ class BasketTest extends TestCase
         $this->assertEquals(0, $this->basket->countProducts());
         $this->assertEquals(0, $this->basket->total());
 
-        $this->basket->add($this->redWidget->getCode());
+        $this->basket->add('R01');
         $this->assertEquals(1, $this->basket->countProducts());
         $this->assertEquals(32.95, $this->basket->total());
     }
 
     public function testAddTwoDifferentProducts()
     {
-        $this->basket->add($this->greenWidget->getCode());
+        $this->basket->add('G01');
         $this->assertEquals(1, $this->basket->countProducts());
         $this->assertEquals(24.95, $this->basket->total());
 
-        $this->basket->add($this->blueWidget->getCode());
+        $this->basket->add('B01');
         $this->assertEquals(2, $this->basket->countProducts());
         $this->assertEquals(24.95 + 7.95, $this->basket->total());
     }
 
     public function testAddSameProductTwice()
     {
-        $this->basket->add($this->redWidget->getCode());
+        $this->basket->add('R01');
         $this->assertEquals(1, $this->basket->countProducts());
         $this->assertEquals(32.95, $this->basket->total());
 
-        $this->basket->add($this->redWidget->getCode());
+        $this->basket->add('R01');
         $this->assertEquals(2, $this->basket->countProducts());
         $this->assertEquals(32.95 + 32.95, $this->basket->total());
     }
