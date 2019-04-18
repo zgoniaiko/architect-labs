@@ -4,9 +4,16 @@ namespace App\Model;
 
 class Basket
 {
-    public function add()
-    {
+    private $products = [];
 
+    public function add($code)
+    {
+        $this->products[] = $code;
+    }
+
+    public function countProducts()
+    {
+        return count($this->products);
     }
 
     public function total()

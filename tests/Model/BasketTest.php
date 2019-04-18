@@ -13,4 +13,23 @@ class BasketTest extends TestCase
         $basket = new Basket();
         $this->assertInstanceOf(Basket::class, $basket);
     }
+
+    public function testAdd()
+    {
+        $product = new Product();
+        $product
+            ->setName('Red Widget')
+            ->setCode('R01')
+            ->setPrice(32.95)
+        ;
+        $basket = new Basket();
+
+        $this->assertEquals(0, $basket->countProducts());
+
+        $basket->add($product->getCode());
+        $this->assertEquals(1, $basket->countProducts());
+
+        $basket->add($product->getCode());
+        $this->assertEquals(2, $basket->countProducts());
+    }
 }
