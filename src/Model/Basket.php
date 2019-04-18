@@ -58,8 +58,21 @@ class Basket
     private function getProductsCost()
     {
         $total = 0;
+        $discountItems = [];
+        foreach ($this->offer as $item) {
+            $discountItems[$item] = 0;
+        }
+
         foreach ($this->products as $item) {
-            $total += $this->catalog[$item]->getPrice();
+            if (in_array($item, $this->offer)) {
+                $discountItems[$item]++;
+            }
+
+            if (isset($discountItems[$item]) && ($discountItems[$item] % 2 == 0)) {
+                $total += round($this->catalog[$item]->getPrice()/2, 2, PHP_ROUND_HALF_DOWN);
+            } else {
+                $total += $this->catalog[$item]->getPrice();
+            }
         }
 
         return $total;

@@ -192,6 +192,10 @@ class BasketTest extends TestCase
         $basket->add('R01');
         $this->assertEquals(1, $basket->countProducts());
         $this->assertEquals(32.95, $basket->total());
+
+        $basket->add('R01');
+        $this->assertEquals(2, $basket->countProducts());
+        $this->assertEquals(49.42, $basket->total());
     }
 
     public function testTableDeliveryNextRedHalfPriceOffer()
@@ -207,5 +211,11 @@ class BasketTest extends TestCase
         $basket->add('G01');
         $this->assertEquals(2, $basket->countProducts());
         $this->assertEquals(60.85, $basket->total());
+
+        $basket = new Basket($this->catalog, $this->tableDelivery, $this->nextRedHalfPriceOffer);
+        $basket->add('R01');
+        $basket->add('R01');
+        $this->assertEquals(2, $basket->countProducts());
+        $this->assertEquals(54.37, $basket->total());
     }
 }
