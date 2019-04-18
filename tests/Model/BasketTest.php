@@ -10,9 +10,18 @@ class BasketTest extends TestCase
 {
     private $basket;
 
+    private $redWidget;
+
     protected function setUp()
     {
         parent::setUp();
+
+        $this->redWidget = new Product();
+        $this->redWidget
+            ->setName('Red Widget')
+            ->setCode('R01')
+            ->setPrice(32.95)
+        ;
 
         $this->basket = new Basket();
     }
@@ -24,19 +33,12 @@ class BasketTest extends TestCase
 
     public function testAdd()
     {
-        $product = new Product();
-        $product
-            ->setName('Red Widget')
-            ->setCode('R01')
-            ->setPrice(32.95)
-        ;
-
         $this->assertEquals(0, $this->basket->countProducts());
 
-        $this->basket->add($product->getCode());
+        $this->basket->add($this->redWidget->getCode());
         $this->assertEquals(1, $this->basket->countProducts());
 
-        $this->basket->add($product->getCode());
+        $this->basket->add($this->redWidget->getCode());
         $this->assertEquals(2, $this->basket->countProducts());
     }
 }
