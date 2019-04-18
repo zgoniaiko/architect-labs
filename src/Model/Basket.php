@@ -7,14 +7,17 @@ use Exception;
 class Basket
 {
     private $catalog;
+    private $delivery;
 
     private $products = [];
 
-    public function __construct(array $catalog)
+    public function __construct(array $catalog, array $delivery = [])
     {
         foreach ($catalog as $item) {
             $this->catalog[$item->getCode()] = $item;
         }
+
+        $this->delivery = $delivery;
     }
 
     public function add($code)
@@ -32,6 +35,13 @@ class Basket
     }
 
     public function total()
+    {
+        $total = $this->getProductsCost();
+
+        return $total;
+    }
+
+    private function getProductsCost()
     {
         $total = 0;
         foreach ($this->products as $item) {

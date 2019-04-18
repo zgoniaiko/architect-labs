@@ -15,6 +15,7 @@ class BasketTest extends TestCase
     private $catalog;
 
     private $delivery;
+    private $flatDelivery;
     private $freeDelivery;
 
     protected function setUp()
@@ -48,6 +49,10 @@ class BasketTest extends TestCase
         $this->delivery = [
             90 => 0,
             50 => 2.95,
+            0 => 4.95,
+        ];
+
+        $this->flatDelivery = [
             0 => 4.95,
         ];
 
@@ -101,4 +106,16 @@ class BasketTest extends TestCase
         $this->expectException('\Exception');
         $basket->add('non-exists');
     }
+
+    public function testFreeDelivery()
+    {
+        $basket = new Basket($this->catalog);
+        $this->assertEquals(0, $basket->countProducts());
+        $this->assertEquals(0, $basket->total());
+
+        $basket = new Basket($this->catalog, $this->freeDelivery);
+        $this->assertEquals(0, $basket->countProducts());
+        $this->assertEquals(0, $basket->total());
+    }
+
 }
