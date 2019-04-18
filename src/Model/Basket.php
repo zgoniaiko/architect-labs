@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use Exception;
+
 class Basket
 {
     private $catalog;
@@ -17,6 +19,10 @@ class Basket
 
     public function add($code)
     {
+        if (!isset($this->catalog[$code])) {
+            throw new Exception(sprintf("Attempt to add non-exists product with code '%s'", $code));
+        }
+
         $this->products[] = $code;
     }
 

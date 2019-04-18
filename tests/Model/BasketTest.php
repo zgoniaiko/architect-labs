@@ -81,4 +81,10 @@ class BasketTest extends TestCase
         $this->assertEquals(2, $this->basket->countProducts());
         $this->assertEquals(32.95 + 32.95, $this->basket->total());
     }
+
+    public function testAddNonExistsProduct()
+    {
+        $this->expectException('\Exception');
+        $this->basket->add('non-exists');
+    }
 }
