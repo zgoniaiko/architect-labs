@@ -36,8 +36,13 @@ class BasketTest extends TestCase
             ->setPrice(7.95)
         ;
 
+        $products = [
+            $this->redWidget,
+            $this->greenWidget,
+            $this->blueWidget,
+        ];
 
-        $this->basket = new Basket();
+        $this->basket = new Basket($products);
     }
 
     public function testConstructor()

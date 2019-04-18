@@ -4,7 +4,14 @@ namespace App\Model;
 
 class Basket
 {
+    private $catalog;
+
     private $products = [];
+
+    public function __construct(array $catalog)
+    {
+        $this->catalog = $catalog;
+    }
 
     public function add($code)
     {
