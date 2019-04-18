@@ -217,5 +217,14 @@ class BasketTest extends TestCase
         $basket->add('R01');
         $this->assertEquals(2, $basket->countProducts());
         $this->assertEquals(54.37, $basket->total());
+
+        $basket = new Basket($this->catalog, $this->tableDelivery, $this->nextRedHalfPriceOffer);
+        $basket->add('B01');
+        $basket->add('B01');
+        $basket->add('R01');
+        $basket->add('R01');
+        $basket->add('R01');
+        $this->assertEquals(5, $basket->countProducts());
+        $this->assertEquals(98.27, $basket->total());
     }
 }
