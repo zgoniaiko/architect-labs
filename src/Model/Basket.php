@@ -10,7 +10,9 @@ class Basket
 
     public function __construct(array $catalog)
     {
-        $this->catalog = $catalog;
+        foreach ($catalog as $item) {
+            $this->catalog[$item->getCode()] = $item;
+        }
     }
 
     public function add($code)
@@ -25,6 +27,11 @@ class Basket
 
     public function total()
     {
+        $total = 0;
+        foreach ($this->products as $item) {
+            $total += $this->catalog[$item]->getPrice();
+        }
 
+        return $total;
     }
 }
